@@ -71,6 +71,18 @@ class BoardSpec extends AnyWordSpec with should.Matchers {
           "12  |___| |___| |___| |___| |___| |___| |___| |___| |___| |___| |___| |___| |___|\n" +
           "13  |___| |___| |___| |___| |___| |___| |___| |___| |___| |___| |___| |___| |___|")
       }
+      "not be able to put tile when all tiles of this color have been put for the player" in {
+        testBoard = testBoard.replaceCell(7, 9, "red")
+        testBoard = testBoard.replaceCell(6, 9, "white")
+        testBoard = testBoard.replaceCell(6, 10, "red")
+        testBoard = testBoard.replaceCell(7, 10 , "black")
+        println(testBoard.toString)
+        testBoard.replaceCell(7, 7, "red").getCell(7, 7) should be(Cell(None))
+        testBoard.updatePlayer(7,7, "red", testBoard.player1) should be(testBoard.player1)
+      }
+      "not be able to place Cell over another Cell" in {
+        testBoard.replaceCell(7, 9, "grey").getCell(7, 9) should be (Cell(Some("red")))
+      }
     }
     "being tested for rules" should {
       var board: Board =  Board()
@@ -132,7 +144,6 @@ class BoardSpec extends AnyWordSpec with should.Matchers {
       }
       "return false is the max size of the field is already reached" in {
         board.maxField(7,11) should be (false)
-
       }
       "return true if not" in {
         var miniBoard = Board()
@@ -143,6 +154,9 @@ class BoardSpec extends AnyWordSpec with should.Matchers {
       }
       "check all rules at once" in {
         board.allRules(6,7, "red") should be (false)
+
+        board = board.replaceCell(4, 4, "grey")
+        board.allRules(3, 5, "grey") should be (false)
       }
       "return true if a cell is placed in center of empty board" in {
         val newBoard = Board()

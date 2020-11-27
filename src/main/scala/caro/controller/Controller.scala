@@ -17,9 +17,10 @@ class Controller(var board:Board) extends Observable {
   def putCell(row: Int, col: Int, color:String):Unit = {
     board = board.replaceCell(row, col, color)
     notifyObservers
-
   }
 
-
-
+  def updateNames(player:String, name:String):Unit = {
+    board = board.updatePlayerNames(player, name)
+    notifyObservers
+  }
 }

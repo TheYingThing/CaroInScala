@@ -27,7 +27,7 @@ object Caro {
 
     do {
 
-      printf("Enter your command: \n")
+      printf("\nEnter your command: \n")
       input = readLine()
       tui.processInputLine(input)
     } while(input != "quit")
