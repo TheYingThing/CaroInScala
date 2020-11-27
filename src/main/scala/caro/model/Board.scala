@@ -4,7 +4,7 @@ import scala.collection.mutable.ListBuffer
 import scala.collection.immutable.ListMap
 
 case class Board (board:Vector[Vector[Cell]] = Vector.fill(19, 19)(Cell(None)), width:Int=0,
-                  height:Int=0, moves:Int=0, player1:Player = Player("player 1"), player2:Player = Player("player 2")) {
+                  height:Int=0, moves:Int=0, player1:Player = Player("player1"), player2:Player = Player("player2")) {
   //3-15
   val maxSize:Int = 6
 
@@ -66,21 +66,19 @@ case class Board (board:Vector[Vector[Cell]] = Vector.fill(19, 19)(Cell(None)), 
 
   def replaceCell(row:Int, col:Int, color:String):Board = {
     if(allRules(row, col, color)){
-      if(this.getCell(row, col).isOccupied) {
+      if(this.getCell(row, col).getColor != color && this.getCell(row, col).isOccupied) {
         this
       } else {
         var newPlayer1 = player1
         var newPlayer2 = player2
         if(moves%2 == 0) {
           newPlayer1 = updatePlayer(row, col, color, player1)
-          if(newPlayer1 == player1){
+          if(newPlayer1 == player1)
             return this
-          }
         } else {
           newPlayer2 = updatePlayer(row, col, color, player2)
-          if(newPlayer2 == player2) {
+          if(newPlayer2 == player2)
             return this
-          }
         }
         val cell = Cell(Some(color))
         copy(board.updated(row, board(row).updated(col, cell)),
@@ -192,12 +190,8 @@ case class Board (board:Vector[Vector[Cell]] = Vector.fill(19, 19)(Cell(None)), 
     neighbors.foreach(f => newPoints += combinations(f))
     newPoints
   }
-  def updatePlayerNames(player:String, newName:String):Board = {
-    player match{
-      case "player1" => copy(player1 = player1.copy(name = newName))
-      case "player2" => copy(player2 = player2.copy(name = newName))
-    }
-  }
+
+
 }
 
 
