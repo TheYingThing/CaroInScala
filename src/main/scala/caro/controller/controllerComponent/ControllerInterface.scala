@@ -1,5 +1,6 @@
 package caro.controller.controllerComponent
 
+import caro.model.gridComponent.BoardInterface
 import caro.util._
 
 /**
@@ -10,6 +11,8 @@ import caro.util._
  */
 
 trait ControllerInterface extends Observable {
+
+  def getBoard():BoardInterface
 
   /**
    * Method newBoard creates a new Board.
